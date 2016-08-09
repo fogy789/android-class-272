@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public void click(View view)
     {
         String text = ediText.getText().toString();
-        text = text + " Order" + drink;
+        text = text + " Order " + drink;
         textview.setText(text);
+        ediText.setText("");
     }
 }
