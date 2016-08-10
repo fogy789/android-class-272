@@ -68,24 +68,25 @@ public class MainActivity extends AppCompatActivity {
     {
 //        String[] data =new String[]{"1","2","3","4","5","6","7","8"};
 
-        List<Map<String, String>> mapList = new ArrayList<>();
+//        List<Map<String, String>> mapList = new ArrayList<>();
+//
+//        for(Order order : data)
+//        {
+//            Map<String ,String> item = new HashMap<>();
+//
+//            item.put("note",order.note);
+//            item.put("storeInfo",order.storeInfo);
+//            item.put("drink",order.drink);
+//
+//            mapList.add(item);
+//        }
+//
+//        String[] from = {"note","storeInfo","drink"};
+//        int[] to = {R.id.notetextview,R.id.storeInfotextView,R.id.drinktextView};
+//
+//        SimpleAdapter adapter = new SimpleAdapter(this, mapList, R.layout.listview_order_items, from, to);
 
-        for(Order order : data)
-        {
-            Map<String ,String> item = new HashMap<>();
-
-            item.put("note",order.note);
-            item.put("storeInfo",order.storeInfo);
-            item.put("drink",order.drink);
-
-            mapList.add(item);
-        }
-
-        String[] from = {"note","storeInfo","drink"};
-        int[] to = {R.id.notetextview,R.id.storeInfotextView,R.id.drinktextView};
-
-        SimpleAdapter adapter = new SimpleAdapter(this, mapList, R.layout.listview_order_items, from, to);
-
+        OrderAdapter adapter = new OrderAdapter(this, data);
         listview.setAdapter(adapter);
     }
 
