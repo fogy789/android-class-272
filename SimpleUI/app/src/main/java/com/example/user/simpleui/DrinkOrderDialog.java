@@ -1,6 +1,10 @@
 package com.example.user.simpleui;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;//把support.V4(舊手機也能使用的Fragment)改成現在這樣
@@ -17,7 +21,7 @@ import android.view.ViewGroup;
  * Use the {@link DrinkOrderDialog#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DrinkOrderDialog extends Fragment {
+public class DrinkOrderDialog extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,11 +64,37 @@ public class DrinkOrderDialog extends Fragment {
         }
     }
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_drink_order_dialog, container, false);
+//    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_drink_order_dialog, container, false);
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+        if(getArguments() != null)
+        {
+
+        }
+        View contentView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drink_order_dialog,null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setView(contentView).setTitle("Hello Dialog").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        return builder.create();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
