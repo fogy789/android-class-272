@@ -26,6 +26,7 @@ public class DrinkOrderDialog extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Drink drink;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -41,16 +42,15 @@ public class DrinkOrderDialog extends DialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment DrinkOrderDialog.
      */
     // TODO: Rename and change types and number of parameters
-    public static DrinkOrderDialog newInstance(String param1, String param2) {
+    public static DrinkOrderDialog newInstance(Drink drink) {
         DrinkOrderDialog fragment = new DrinkOrderDialog();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
+        args.putParcelable(ARG_PARAM1,drink);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,13 +76,13 @@ public class DrinkOrderDialog extends DialogFragment {
     {
         if(getArguments() != null)
         {
-
+            drink = getArguments().getParcelable(ARG_PARAM1);
         }
         View contentView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drink_order_dialog,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setView(contentView).setTitle("Hello Dialog").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setView(contentView).setTitle(drink.name).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
