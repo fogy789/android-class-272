@@ -64,12 +64,20 @@ public class DrinkMenuActivity extends AppCompatActivity {
         }
     }
 
-    public void done(View view)
+    public void done(View view)//onclick的指定格式
     {
         Intent intent = new Intent();
         intent.putExtra("result",String.valueOf(total));
 
         setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    public void cancel(View view)
+    {
+        Intent intent = new Intent();
+
+        setResult(RESULT_CANCELED,intent);
         finish();
     }
 

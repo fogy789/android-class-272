@@ -140,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
                 String result = data.getStringExtra("result");
                 Toast.makeText(this,result,Toast.LENGTH_LONG).show();
             }
+            else if(resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(this,"取消菜單",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
