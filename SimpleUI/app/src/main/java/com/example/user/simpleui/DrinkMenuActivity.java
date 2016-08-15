@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
     int[] images = {R.drawable.drink1,R.drawable.drink2,R.drawable.drink3,R.drawable.drink4};//給id
 
     List<Drink> drinkList = new ArrayList<>();
-    List<DrinkOrder> drinkOrderList = new ArrayList<>();//把飲料訂單存下來
+    ArrayList<DrinkOrder> drinkOrderList = new ArrayList<>();//把飲料訂單存下來
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,12 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
 
         setData();
 
+        Intent intent = getIntent();
+        drinkOrderList = intent.getParcelableArrayListExtra("result");
         drinkMenuListView =(ListView) findViewById(R.id.drinkIdlistView);
         totalTextView = (TextView) findViewById(R.id.totaltextview);
 
+        updateTotalTextView();
         drinkMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,7 +77,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
     public void done(View view)//onclick的指定格式
     {
         Intent intent = new Intent();
-        intent.putExtra("result",String.valueOf(total));
+        intent.putExtra("result", drinkOrderList);
 
         setResult(RESULT_OK,intent);
         finish();

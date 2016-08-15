@@ -1,9 +1,13 @@
 package com.example.user.simpleui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
     String drink="Black Tea";
 
+    ArrayList<DrinkOrder> drinkOrderList = new ArrayList<>();
     List<Order> data = new ArrayList<>();
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,28 @@ public class MainActivity extends AppCompatActivity {
         radioGroup=(RadioGroup)findViewById(R.id.rdg);
         listview=(ListView)findViewById(R.id.listView);
         spinner=(Spinner)findViewById(R.id.spinner);
+
+        sharedPreferences = getSharedPreferences("UIState", MODE_PRIVATE);//xml的檔名及模式
+        editor = sharedPreferences.edit();//用editor寫檔
+
+        ediText.setText(sharedPreferences.getString("ediText", ""));
+        ediText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                editor.putString("ediText", ediText.getText().toString());
+                editor.apply();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -116,9 +147,13 @@ public class MainActivity extends AppCompatActivity {
 
         Order order = new Order();
         order.note = text;
-        order.drink = drink;
+        order.drinkOrderList = drinkOrderList;
         order.storeInfo = (String)spinner.getSelectedItem();
+
         data.add(order);
+
+        drinkOrderList = new ArrayList<>();//清空所有接收的// 飲料訂單
+
         setupListview();
 
     }
@@ -126,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToMenu(View view)
     {
         Intent intent = new Intent();
+        intent.putExtra("result", drinkOrderList);
         intent.setClass(this, DrinkMenuActivity.class);
         startActivityForResult(intent,REQUEST_CODE_DRINK_MENU_ACTIVITY);
     }
@@ -137,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
         {
             if(resultCode == RESULT_OK)
             {
-                String result = data.getStringExtra("result");
-                Toast.makeText(this,result,Toast.LENGTH_LONG).show();
+                drinkOrderList = data.getParcelableArrayListExtra("result");
+                //Toast.makeText(this,result,Toast.LENGTH_LONG).show();
             }
             else if(resultCode == RESULT_CANCELED)
             {
