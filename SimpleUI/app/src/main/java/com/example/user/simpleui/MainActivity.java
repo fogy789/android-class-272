@@ -58,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("UIState", MODE_PRIVATE);//xml的檔名及模式
         editor = sharedPreferences.edit();//用editor寫檔
 
+        spinner.setSelected(sharedPreferences.getInt(spinner,0));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editor.putInt(,,,,,)
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         ediText.setText(sharedPreferences.getString("ediText", ""));
         ediText.addTextChangedListener(new TextWatcher() {
             @Override
