@@ -28,6 +28,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
     int[] images = {R.drawable.drink1,R.drawable.drink2,R.drawable.drink3,R.drawable.drink4};//給id
 
     List<Drink> drinkList = new ArrayList<>();
+    List<DrinkOrder> drinkOrderList = new ArrayList<>();//把飲料訂單存下來
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
 //        ft.replace(R.id.root,dialog);
 //
 //        ft.commit();
-        dialog.show(ft,"DrinkOrderDialog");
+        dialog.show(ft, "DrinkOrderDialog");
     }
 
     public void cancel(View view)
@@ -109,7 +110,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("DEBUG","DrinkMenuActivity onStart");
+        Log.d("DEBUG", "DrinkMenuActivity onStart");
     }
 
     @Override
@@ -143,7 +144,20 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onDrinkOrderResult(DrinkOrder drinkOrder) {
+        drinkOrderList.add(drinkOrder);
+        updateTotalTextView();
 
+    }
+
+    private void updateTotalTextView()
+    {
+        int total = 0;
+        for (DrinkOrder drinkOrder : drinkOrderList)
+        {
+            total += drinkOrder.LNumber*drinkOrder.drink.lPrice + drinkOrder.mNumber*drinkOrder.drink.mPrice;
+        }
+
+        totalTextView.setText(String.valueOf(total));
     }
 }
