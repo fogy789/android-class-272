@@ -28,7 +28,7 @@ public class DrinkOrderDialog extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Drink drink;
+    private DrinkOrder drinkOrder;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -54,11 +54,11 @@ public class DrinkOrderDialog extends DialogFragment {
      * @return A new instance of fragment DrinkOrderDialog.
      */
     // TODO: Rename and change types and number of parameters
-    public static DrinkOrderDialog newInstance(Drink drink) {
+    public static DrinkOrderDialog newInstance(DrinkOrder drinkOrder) {
         DrinkOrderDialog fragment = new DrinkOrderDialog();
         Bundle args = new Bundle();
 
-        args.putParcelable(ARG_PARAM1,drink);
+        args.putParcelable(ARG_PARAM1,drinkOrder);
 
         fragment.setArguments(args);
         return fragment;
@@ -85,16 +85,15 @@ public class DrinkOrderDialog extends DialogFragment {
     {
         if(getArguments() != null)
         {
-            drink = getArguments().getParcelable(ARG_PARAM1);
+           this.drinkOrder = getArguments().getParcelable(ARG_PARAM1);
         }
         View contentView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drink_order_dialog,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setView(contentView).setTitle(drink.name).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setView(contentView).setTitle(drinkOrder.drink.name).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DrinkOrder drinkOrder = new DrinkOrder(drink);
                 drinkOrder.mNumber = mnumberPicker.getValue();
                 drinkOrder.LNumber = lnumberPicker.getValue();
                 drinkOrder.ice = getSeletedTextFromRadioGroup(iceRadioGroup);
@@ -122,9 +121,15 @@ public class DrinkOrderDialog extends DialogFragment {
 
         mnumberPicker.setMaxValue(100);
         mnumberPicker.setMinValue(0);
+        mnumberPicker.setValue(drinkOrder.mNumber);
 
         lnumberPicker.setMaxValue(100);
         lnumberPicker.setMinValue(0);
+        lnumberPicker.setValue(drinkOrder.LNumber);
+
+        noteEdiText.setText(drinkOrder.note);
+        setSeletedTextInRadioGroup(drinkOrder.ice,iceRadioGroup);
+        setSeletedTextInRadioGroup(drinkOrder.sugar,sugarRadioGroup);
 
         return builder.create();
     }
@@ -136,6 +141,26 @@ public class DrinkOrderDialog extends DialogFragment {
         return radioButton.getText().toString();
     }
 
+    private void setSeletedTextInRadioGroup(String seletedText,RadioGroup radioGroup)
+    {
+        int count = radioGroup.getChildCount();
+        for(int i=0 ; i<count;i++)
+        {
+            View view = radioGroup.getChildAt(i);
+            if(view instanceof  RadioButton)
+            {
+                RadioButton radioButton = (RadioButton)view;
+                if(radioButton.getText().toString().equals(seletedText))
+                {
+                    radioButton.setChecked(true);
+                }
+                else
+                {
+                    radioButton.setChecked(false);
+                }
+            }
+        }
+    }
 
     @Override
     public void onAttach(Context context) {//把activity傳進來，建立溝通的橋梁，若溝通機制無效就要注意是否使用API22的手機，並將成是改成public void onAttach(Activity activity)
