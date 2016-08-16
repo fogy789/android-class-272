@@ -8,7 +8,7 @@ import java.util.List;
 public class Order {
     String note;
     String storeInfo;
-    String drink;
+//    String drink;
     List<DrinkOrder> drinkOrderList;
 
     public int getTotal()
