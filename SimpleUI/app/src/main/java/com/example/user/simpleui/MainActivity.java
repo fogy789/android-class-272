@@ -58,19 +58,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("UIState", MODE_PRIVATE);//xml的檔名及模式
         editor = sharedPreferences.edit();//用editor寫檔
 
-        spinner.setSelected(sharedPreferences.getInt(spinner,0));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editor.putInt(,,,,,)
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         ediText.setText(sharedPreferences.getString("ediText", ""));
         ediText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,13 +80,10 @@ public class MainActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.blackTea)
-                {
-                    drink="Black Tea";
-                }
-                else if(checkedId==R.id.greenTea)
-                {
-                    drink="Green Tea";
+                if (checkedId == R.id.blackTea) {
+                    drink = "Black Tea";
+                } else if (checkedId == R.id.greenTea) {
+                    drink = "Green Tea";
                 }
             }
         });
@@ -123,6 +107,19 @@ public class MainActivity extends AppCompatActivity {
         String[] storeInfo = getResources().getStringArray(R.array.storeInfo);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,storeInfo);
         spinner.setAdapter(adapter);
+        spinner.setSelection(sharedPreferences.getInt("spinnerSelection",0));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editor.putInt("spinnerSelection", spinner.getSelectedItemPosition());
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void setupListview()
