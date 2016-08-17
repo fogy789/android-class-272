@@ -102,7 +102,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
         DrinkOrder order = null;
         for(DrinkOrder drinkOrder : drinkOrderList)
         {
-            if(drinkOrder.drink.getObjectId().equals(drink.getObjectId()))
+            if(drinkOrder.getDrink().getObjectId().equals(drink.getObjectId()))
             {
                 order = drinkOrder;
                 break;
@@ -180,7 +180,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
         boolean flag = false;
         for(int i =0; i<drinkOrderList.size() ; i++)
         {
-            if(drinkOrderList.get(i).drink.getObjectId().equals(drinkOrder.drink.getObjectId()))
+            if(drinkOrderList.get(i).getDrink().getObjectId().equals(drinkOrder.getDrink().getObjectId()))
             {
                 drinkOrderList.set(i,drinkOrder);
                 flag = true;
@@ -199,7 +199,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
         int total = 0;
         for (DrinkOrder drinkOrder : drinkOrderList)
         {
-            total += drinkOrder.LNumber*drinkOrder.drink.getlPrice() + drinkOrder.mNumber*drinkOrder.drink.getmPrice();
+            total += drinkOrder.getLNumber()*drinkOrder.getDrink().getlPrice() + drinkOrder.getmNumber()*drinkOrder.getDrink().getmPrice();
         }
 
         totalTextView.setText(String.valueOf(total));

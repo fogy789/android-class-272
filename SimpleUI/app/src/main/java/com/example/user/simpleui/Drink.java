@@ -44,9 +44,11 @@ public class Drink extends ParseObject implements Parcelable {
     }
 
     public Drink() {
+        super();
     }
 
     protected Drink(Parcel in) {
+        super();
         this.setName(in.readString());
         this.setmPrice(in.readInt());
         this.setlPrice(in.readInt());
@@ -110,6 +112,7 @@ public class Drink extends ParseObject implements Parcelable {
     {
         try {
             Drink drink = getQuery().setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK).get(objectId);
+            return drink;
         } catch (ParseException e) {
             e.printStackTrace();
         }

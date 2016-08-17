@@ -91,14 +91,14 @@ public class DrinkOrderDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setView(contentView).setTitle(drinkOrder.drink.getName()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setView(contentView).setTitle(drinkOrder.getDrink().getName()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                drinkOrder.mNumber = mnumberPicker.getValue();
-                drinkOrder.LNumber = lnumberPicker.getValue();
-                drinkOrder.ice = getSeletedTextFromRadioGroup(iceRadioGroup);
-                drinkOrder.sugar = getSeletedTextFromRadioGroup(sugarRadioGroup);
-                drinkOrder.note = noteEdiText.getText().toString();
+                drinkOrder.setmNumber(mnumberPicker.getValue());
+                drinkOrder.setLNumber(lnumberPicker.getValue());
+                drinkOrder.setIce(getSeletedTextFromRadioGroup(iceRadioGroup));
+                drinkOrder.setSugar(getSeletedTextFromRadioGroup(sugarRadioGroup));
+                drinkOrder.setNote(noteEdiText.getText().toString());
 
                 if(mListener != null)
                 {
@@ -121,15 +121,15 @@ public class DrinkOrderDialog extends DialogFragment {
 
         mnumberPicker.setMaxValue(100);
         mnumberPicker.setMinValue(0);
-        mnumberPicker.setValue(drinkOrder.mNumber);
+        mnumberPicker.setValue(drinkOrder.getmNumber());
 
         lnumberPicker.setMaxValue(100);
         lnumberPicker.setMinValue(0);
-        lnumberPicker.setValue(drinkOrder.LNumber);
+        lnumberPicker.setValue(drinkOrder.getLNumber());
 
-        noteEdiText.setText(drinkOrder.note);
-        setSeletedTextInRadioGroup(drinkOrder.ice,iceRadioGroup);
-        setSeletedTextInRadioGroup(drinkOrder.sugar,sugarRadioGroup);
+        noteEdiText.setText(drinkOrder.getNote());
+        setSeletedTextInRadioGroup(drinkOrder.getIce(),iceRadioGroup);
+        setSeletedTextInRadioGroup(drinkOrder.getSugar(),sugarRadioGroup);
 
         return builder.create();
     }
