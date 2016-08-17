@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Order order = (Order) parent.getAdapter().getItem(position);//因為事物件，所以要轉型成Order
-                Toast.makeText(MainActivity.this, order.note, Toast.LENGTH_LONG).show();//若被包在listener內的話，'this會變成只向linstener，要MainActivity.this才會指向MainActivity
+//                Toast.makeText(MainActivity.this, order.note, Toast.LENGTH_LONG).show();//若被包在listener內的話，'this會變成只向linstener，要MainActivity.this才會指向MainActivity
             }
         });
 
@@ -143,7 +143,16 @@ public class MainActivity extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //        }
-
+        Order.getQuery().findInBackground(new FindCallback<Order>() {
+            @Override
+            public void done(List<Order> objects, ParseException e) {
+                if(e == null)
+                {
+                    orderList = objects;
+                    setupListview();
+                }
+            }
+        });
     }
 
     private void setupSpinner()
@@ -200,15 +209,24 @@ public class MainActivity extends AppCompatActivity {
         ediText.setText("");
 
         Order order = new Order();
-        order.note = text;
-        order.drinkOrderList = drinkOrderList;
-        order.storeInfo = (String)spinner.getSelectedItem();
+        order.setNote(text);
+        order.setDrinkOrderList(drinkOrderList);
+        order.setStoreInfo((String)spinner.getSelectedItem());
 
         orderList.add(order);
 
-        Gson gson = new Gson();
-        String orderData = gson.toJson(order);
-        Utils.writeFile(this, "history", orderData+"\n");
+//        Gson gson = new Gson();
+//        String orderData = gson.toJson(order);
+//        Utils.writeFile(this, "history", orderData+"\n");
+        order.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e != null)
+                {
+                    Toast.makeText(MainActivity.this, "Order Fail",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         //textview.setText(orderData);
 
         drinkOrderList = new ArrayList<>();//清空所有接收的// 飲料訂單

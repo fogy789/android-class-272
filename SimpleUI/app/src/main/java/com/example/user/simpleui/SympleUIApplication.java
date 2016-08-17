@@ -17,6 +17,7 @@ public class SympleUIApplication extends Application{
 
         ParseObject.registerSubclass(Drink.class);
         ParseObject.registerSubclass(DrinkOrder.class);
+        ParseObject.registerSubclass(Order.class);
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("khIdMP7yHMFraHrisclmzwthVkMSEj0o5O7Pwj8K")
                 .server( "https://parseapi.back4app.com//")
