@@ -3,11 +3,15 @@ package com.example.user.simpleui;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.List;
 
 /**
  * Created by user on 2016/8/11.
@@ -111,11 +115,31 @@ public class Drink extends ParseObject implements Parcelable {
     public static Drink getDrinkFromCache(String objectId)
     {
         try {
-            Drink drink = getQuery().setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK).get(objectId);
+            Drink drink = getQuery().fromLocalDatastore().get(objectId);
             return drink;
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return Drink.createWithoutData(Drink.class, objectId);
+    }
+
+    public static void getDrinksFromLocalThenRemote(final FindCallback<Drink> callback)
+    {
+        getQuery().fromLocalDatastore().findInBackground(callback);//findInBackground直接從網路上抓，fromLocalDatastore離現存在用戶端的
+        getQuery().findInBackground(new FindCallback<Drink>() {
+            @Override
+            public void done(final List<Drink> list, ParseException e) {
+                if (e == null)
+                {
+                    unpinAllInBackground("Drink", new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            pinAllInBackground("Drink", list);
+                        }
+                    });//把用戶端的資料刪除，在把網路上的資料重載來，較乾淨；應該要進行比對在來增減資料，打起來比較麻煩
+                }
+                callback.done(list, e);
+            }
+        });
     }
 }

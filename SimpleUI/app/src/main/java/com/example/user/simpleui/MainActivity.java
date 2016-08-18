@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //        }
-        Order.getQuery().findInBackground(new FindCallback<Order>() {
+        Order.getOrderFromLocalThenRemote(new FindCallback<Order>() {
             @Override
             public void done(List<Order> objects, ParseException e) {
                 if(e == null)
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 //        Gson gson = new Gson();
 //        String orderData = gson.toJson(order);
 //        Utils.writeFile(this, "history", orderData+"\n");
-        order.saveInBackground(new SaveCallback() {
+        order.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e != null)
@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        order.pinInBackground("Order");
         //textview.setText(orderData);
 
         drinkOrderList = new ArrayList<>();//清空所有接收的// 飲料訂單

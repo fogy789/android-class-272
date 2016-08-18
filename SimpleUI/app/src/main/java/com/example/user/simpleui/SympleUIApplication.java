@@ -21,7 +21,9 @@ public class SympleUIApplication extends Application{
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("khIdMP7yHMFraHrisclmzwthVkMSEj0o5O7Pwj8K")
                 .server( "https://parseapi.back4app.com//")
-                .clientKey("ALAAYg5tx3kKGhrMQv0PKrT7Oc9vM1h50dk4Iaz3").build()
+                .clientKey("ALAAYg5tx3kKGhrMQv0PKrT7Oc9vM1h50dk4Iaz3")
+                        .enableLocalDataStore()
+                        .build()
         );
     }
 }
