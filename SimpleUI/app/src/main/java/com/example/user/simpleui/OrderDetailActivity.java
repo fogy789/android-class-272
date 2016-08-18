@@ -33,27 +33,28 @@ public class OrderDetailActivity extends AppCompatActivity {
             resultText += drinkName + " M:" + mNumber + "  L:"+lNumber + "\n";
         }
         drinkOrderResultstextview.setText(resultText);
-
-        final Handler handler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                latlngtextview.setText("123, 456");
-                return false;
-            }
-        });
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    handler.sendMessage(new Message());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();//thread.run()會把工作丟給mainthread增加其工作量，途中有睡眠，間若太長榮義一片黑,thread.start()是background睡
+//
+//        final Handler handler = new Handler(new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(Message msg) {
+//            latlngtextview.setText("123, 456");
+//                return false;
+//            }
+//        });
+//
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000);
+//                    handler.sendMessage(new Message());
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        thread.start();//thread.run()會把工作丟給mainthread增加其工作量，途中有睡眠，間若太長榮義一片黑,thread.start()是background睡
+        (new GeoCodingTask()).execute("");
     }
 }
