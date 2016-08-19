@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="storeInfo">
-        <item>三重店</item>
+        <item>台大店</item>
         <item>西門店</item>
-        <item>絲滑店</item>
+        <item>復興店</item>
         <item>慈濟店</item>
-        <item>雅蛋店</item>
+        <item>景美店</item>
     </string-array>
 
 </resources>

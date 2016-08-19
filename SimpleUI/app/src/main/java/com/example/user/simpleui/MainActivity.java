@@ -147,8 +147,7 @@ public class MainActivity extends AppCompatActivity {
         Order.getOrderFromLocalThenRemote(new FindCallback<Order>() {
             @Override
             public void done(List<Order> objects, ParseException e) {
-                if(e == null)
-                {
+                if (e == null) {
                     orderList = objects;
                     setupListview();
                 }
@@ -158,10 +157,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupSpinner()
     {
-        String[] storeInfo = getResources().getStringArray(R.array.storeInfo);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,storeInfo);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(sharedPreferences.getInt("spinnerSelection", 0));//放在與spinner相關的地方，這行是若一開始上未勾選就選第1個選項
+       final List<String> storeInfoList = new ArrayList<String>();
+//        String[] storeInfo = getResources().getStringArray(R.array.storeInfo);
+        ParseQuery<ParseObject> parseQuery = new ParseQuery<ParseObject>("StoreInfo");
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                for (ParseObject object : objects) {
+                    storeInfoList.add(object.getString("name") + "," + object.getString("address"));
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, storeInfoList);
+                spinner.setAdapter(adapter);
+                spinner.setSelection(sharedPreferences.getInt("spinnerSelection", 0));//放在與spinner相關的地方，這行是若一開始上未勾選就選第1個選項
+            }
+        });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//這段式保留以勾選的選項
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
